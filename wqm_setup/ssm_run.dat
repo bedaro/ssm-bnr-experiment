@@ -1,0 +1,13 @@
+!wet and dry for WQ
+!WET_DRY_ON = F
+!MIN_DEPTH = 0.5
+
+!====VARIABLES CONTROLLING NETCDF OUTPUT========================================
+CDF_OUT = T 
+!CDF_INT = 90    !time step interval in each netcdf file = DTE*ISPLIT*CDF_INT=40*90=3600 (sec), one record every 1 hr 
+!CDF_STK = 24    !save 24 timestep solutions in each netcdf file = 24x3600 = 1 day
+CDF_INT = 180    ! every 2 hours
+CDF_STK =  12
+
+! u, v, el, salt needed for TEF extraction
+CDF_VDP = el d DOXG B1 B2 NH4 NO3 LDON RDON LPON RPON total_netPP IAVG

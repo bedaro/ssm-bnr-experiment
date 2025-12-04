@@ -1,0 +1,29 @@
+Running the models for BNR:
+
+Control is set up just like the quantile loadings. Inside each quantile:
+	hydro: a 1-year hydro run.
+		Needs linking to the correct ssm_riv.dat
+	hydro_10yr: created from hydro outputs, see below
+	spinup [control only]: A 10-year WQM run with no outputs but a 3650-day restart output. Uses default point source concentration profile
+		Needs linking to the correct ssm_pnt_wq.dat
+		Needs edits to wqm_linkage.in to point to a 10-year hydro run
+	spinup_[x]: A 10-year WQM run with a uniform point source concentration profile adding up to x mg/L TN
+	wqm [control only]: A 1-year WQM run using the 3650-day initial condition
+		Needs linking to the correct ssm_pnt_wq.dat
+		Needs a copy of the generated ssm_initial_wq_hotstart_3650.dat
+		Needs edits to wqm_linkage.in to point to hydro
+	wqm_[x]: A 1-year WQM run using the 3650-day initial condition and with a uniform point source concentration adding up to x mg/L TN
+
+Procedure for running:
+klone bnr/q0.x/hydro$ ssm_hyak.py hydro
+[after hydro is finished]
+ondra bnr$ ./hydro_1to10.py q0.x/hydro/OUTPUT/netcdf q0.x/hydro_10yr/OUTPUT/netcdf
+klone bnr/q0.x/spinup_y$ ssm_hyak.py wqm
+[after spinup is finished]
+ondra bnr/q0.x/spinup_y/outputs$ make_ic_from_restart_newSedim_pH
+	Restart file: restart.3650
+	No changes
+	Destination: ssm_initial_wq_hotstart_3650.dat
+ondra bnr/q0.x$ cp -a spinup_y/outputs/ssm_initial_wq_hotstart_3650.dat wqm_y/inputs/
+[rsync change to klone]
+klone bnr/q0.x/wqm_y/outputs$ ssm_hyak.py wqm

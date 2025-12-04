@@ -1,0 +1,6 @@
+*
+!.gitignore
+# These are available from Ecology: https://fortress.wa.gov/ecy/ezshare/EAP/SalishSea/SalishSeaModelBoundingScenarios.html#Opt2
+!2014_ssm_riv.dat
+!2014_Exist_ssm_pnt_wq.dat
+# 2014_Exist_10_looped_ssm_pnt_wq.dat is too large to include

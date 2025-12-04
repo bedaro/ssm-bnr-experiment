@@ -1,0 +1,12 @@
+**/.ipynb_checkpoints
+**/__pycache__
+**/OUTPUT/*
+**/outputs/*
+!**/outputs/restart.3650
+**/hydro/re_*.dat
+**/hydro/re_*_wd
+**/slurm-*.out
+
+# I wanted to include these but they're too large, they can be created from
+# the above restart.3650 files.
+**/ssm_initial_wq_hotstart_3650.dat

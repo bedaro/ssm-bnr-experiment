@@ -1,0 +1,11 @@
+python=3.9
+ipykernel
+jupyter_client
+mechanize
+numpy
+scipy
+pandas>2.2
+geopandas
+matplotlib
+adjusttext
+contextily

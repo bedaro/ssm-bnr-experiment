@@ -1,0 +1,60 @@
+!---input file for WQM (modified ICM) linkage to PSFVM (FVCOM) ---
+!   comments start with exclamation !
+!
+!   Each section is grouped in a ($NAMELIST  $end) pair
+!
+
+$hydro_netcdf
+   
+     hydro_dir='ondra.mooo.com:wqmodels/ssm/bnr/q0.7/hydro_10yr/OUTPUT/netcdf/'
+     ! Modify this to use your own hydro results
+
+
+                                                              !directory name where the fvcom, note that have to have '/' at the end
+                                                              !if the files are in current dir, simply put './' for unix/linux platform
+     hydro_prefix='ssm_'                                      !prefix part of the file name
+     hydro_suffix='.nc'                                       !extension name
+     hydro_filenumwidth = 5                                   !number of digits in file number following hydro_prefix
+     hydro_filenumstart= 1                                    !number in first netcdf input file
+     hydro_Nrec   = 24                                        !number of records in each netcdf file
+     hydro_dlt    = 3600.0                                     !time step of hydrodynamics (Unit: seconds)
+
+           !The above setup gives clue to the following FVCOM field history output filenames 
+           !
+           !     /home/long075/work/Puget_Sound_2.0/WQ_PS2.0_Hyd_Run9_01/Run_April_30_MD_BND/input-netcdf/psm_0001.nc 
+           !     /home/long075/work/Puget_Sound_2.0/WQ_PS2.0_Hyd_Run9_01/Run_April_30_MD_BND/input-netcdf/psm_0002.nc
+           !      ...
+           !that the model will look for to read in. 
+
+$end
+
+$wqm_history
+    HIS_OUTDIR='./outputs/'                                   !extension name
+    HISFN = 'outputs/ssm_history.out'                         !history output file name
+    t_his_start = 9998.0                                      !starting time in history output (days)
+    t_his_end   = 9999.0                                      !ending time in history output (days)
+    t_his_dlt   = 0.25  !6 hr !0.041666667  ! hourly     !interval of history output (days)
+    HISFN_SPLIT_BYLEVEL= .TRUE.                               !Split history fields into files level by level
+$end
+
+$wqm_stations
+
+    STNFN       = 'outputs/ssm_station.out'      !station output file name (including path if any, length must not exceed 1024 characters)
+
+    Nstation    = 5                              !total number of stations (must be less than NstationMax set in mod_var.F and greater than 1)
+
+    ! 5303: Inner Discovery Bay
+    ! 8907: Point Jefferson mooring (KSBP01)
+    ! 8916: Possession Sound
+    ! 9077: Penn Cove
+    ! 14791: Inner Carr Inlet
+    NstationNum_GL = 5303, 8907, 8916, 9077, 14791
+                                                             !node numbers in fvcom model grid for outputing station timeseries
+                                                             !number of entries here should be equal to Nstation (must not exceed maximum node number and
+                                                             !be greater than 0)
+    t_stn_start = 9998.0                                     !starting time in station output (days)
+    t_stn_end   = 9999.0                                     !ending time in station output (days)
+    t_stn_dlt   = 0.25      !0.25 for 6 hr interval !  0.041666667 for 1 hr interval   !interval of station output (days)
+
+$end
+
